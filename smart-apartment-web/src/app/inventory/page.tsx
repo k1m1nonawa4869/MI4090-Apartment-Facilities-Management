@@ -57,21 +57,32 @@ export default function InventoryPage() {
     }
 
     async function handleAddEquipment() {
-        if (!newItemName) return;
+        if (!newItemName) {
+            alert("Please enter an item name");
+            return;
+        }
 
+        setLoading(true);
         try {
             const res = await fetch("/api/equipment", {
                 method: "POST",
                 body: JSON.stringify({ Name: newItemName, Type: newItemType, Location: newItemLocation })
             });
+
             if (res.ok) {
                 setNewItemName("");
                 setNewItemLocation("");
                 setIsAddOpen(false);
-                fetchData(); // Refresh list
+                fetchData();
+            } else {
+                const errorData = await res.json();
+                alert(`Error: ${errorData.error || "Failed to save equipment"}`);
             }
         } catch (e) {
             console.error("Failed to add", e);
+            alert("Network error: Failed to connect to server");
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -186,7 +197,9 @@ export default function InventoryPage() {
                             </div>
                         </div>
                         <DialogFooter>
-                            <Button onClick={handleAddEquipment}>Save Equipment</Button>
+                            <Button onClick={handleAddEquipment} disabled={loading}>
+                                {loading ? "Saving..." : "Save Equipment"}
+                            </Button>
                         </DialogFooter>
                     </DialogContent>
                 </Dialog>
