@@ -1,5 +1,5 @@
 // Services/Strategies/QuickRepairStrategy.cs
-// [PATTERN] Concrete Strategy 1: Fast, cheap fix
+// Fast, cheap fix
 public class QuickRepairStrategy : IMaintenanceStrategy
 {
     public void Execute(Equipment equipment)

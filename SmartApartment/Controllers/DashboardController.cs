@@ -43,9 +43,5 @@ public class DashboardController
         {
             Console.WriteLine("  [OK] No current system faults.");
         }
-        
-        Console.WriteLine("========================================");
-        Console.WriteLine("\nPress Enter to return...");
-        Console.ReadLine();
     }
 }

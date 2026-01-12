@@ -3,15 +3,14 @@ using System.Text.Json.Serialization;
 
 [JsonDerivedType(typeof(Router), typeDiscriminator: "Router")]
 [JsonDerivedType(typeof(Table), typeDiscriminator: "Table")]
+[JsonDerivedType(typeof(Chair), typeDiscriminator: "Chair")]
 public abstract class Equipment
 {
-    // This is your Unique ID (Asset Tag)
-    public Guid Id { get; set; } = Guid.NewGuid(); 
+    public Guid Id { get; set; } = Guid.NewGuid();     // This is your Unique ID (Asset Tag)
     
     public string Name { get; set; }
     
-    // [NEW] Add this to distinguish items!
-    public string Location { get; set; } 
+    public string Location { get; set; } // Simplified Composite Pattern
 
     public DateTime PurchaseDate { get; set; } = DateTime.Now;
     public string Status { get; set; } = "Active";

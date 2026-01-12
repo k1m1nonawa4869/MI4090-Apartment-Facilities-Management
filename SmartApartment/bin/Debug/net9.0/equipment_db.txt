@@ -6,7 +6,7 @@
     "Name": "ASUS Dehara",
     "Location": "904",
     "PurchaseDate": "2025-12-31T07:39:40.6245634+07:00",
-    "Status": "Active"
+    "Status": "Faulty"
   },
   {
     "$type": "Router",
@@ -15,6 +15,15 @@
     "Name": "ASUS Dehara",
     "Location": "909",
     "PurchaseDate": "2025-12-31T07:39:54.6114492+07:00",
+    "Status": "Active"
+  },
+  {
+    "$type": "Chair",
+    "FabricType": "Cotton",
+    "Id": "0512fb88-fde4-42ef-a843-77db265662c0",
+    "Name": "UGREEN-TKH",
+    "Location": "604",
+    "PurchaseDate": "2026-01-12T09:19:41.2931709+07:00",
     "Status": "Faulty"
   }
 ]

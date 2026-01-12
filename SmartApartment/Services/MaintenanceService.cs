@@ -1,17 +1,19 @@
 // Services/MaintenanceService.cs
 public class MaintenanceService
 {
-    private readonly FileRepository<Equipment> _repo;
+    private readonly FileRepository<Equipment> _equipRepo;
+    private readonly FileRepository<WorkOrder> _workOrderRepo;
 
-    public MaintenanceService(FileRepository<Equipment> repo)
+    public MaintenanceService(FileRepository<Equipment> equipRepo, FileRepository<WorkOrder> workOrderRepo)
     {
-        _repo = repo;
+        _equipRepo = equipRepo;
+        _workOrderRepo = workOrderRepo;
     }
 
     public void PerformMaintenance(Guid id, string strategyName)
     {
         // 1. Find the Item
-        var allItems = _repo.FindAll();
+        var allItems = _equipRepo.FindAll();
         var item = allItems.FirstOrDefault(e => e.Id == id);
 
         if (item == null)
@@ -27,23 +29,39 @@ public class MaintenanceService
             return;
         }
 
+        // 3. Run the Strategy (The "Fix")
         try 
         {
-            // 3. Get the Strategy (Factory)
             var strategy = MaintenanceStrategyFactory.Get(strategyName);
-
-            // 4. Execute the Strategy (The "Pattern" in action)
-            strategy.Execute(item);
-
-            // 5. Save Changes to Text File
-            // (We re-save the whole list because we modified one item)
-            _repo.Save(allItems);
+            strategy.Execute(item); // This updates item.Status
             
-            Console.WriteLine("--- Maintenance Record Saved ---");
+            // 2. Save the Item changes
+            _equipRepo.Save(allItems);
+
+            // 3. [NEW] Create & Save the Log (WorkOrder)
+            var log = new WorkOrder
+            {
+                EquipmentId = item.Id,
+                StrategyUsed = strategyName,
+                TechnicianNote = $"Performed {strategyName} maintenance successfully."
+            };
+            
+            _workOrderRepo.Add(log); // Save to maintenance_log.txt
+            
+            Console.WriteLine($"[Log] Work Order {log.Id} saved to history.");
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"[Error] Maintenance failed: {ex.Message}");
+            Console.WriteLine($"Error: {ex.Message}");
         }
+    }
+
+    //Method to read history
+    public List<WorkOrder> GetHistory(Guid equipmentId)
+    {
+        return _workOrderRepo.FindAll()
+                             .Where(w => w.EquipmentId == equipmentId)
+                             .OrderByDescending(w => w.Date)
+                             .ToList();
     }
 }

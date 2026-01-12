@@ -13,6 +13,9 @@ public class EquipmentFactory : IEquipmentFactory
             case "table":
                 item = new Table { Material = "Wood" };
                 break;
+            case "chair":
+                item = new Chair { FabricType = "Cotton" }; 
+                break;
             default:
                 throw new ArgumentException("Unknown type");
         }

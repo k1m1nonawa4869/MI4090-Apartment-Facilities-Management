@@ -8,6 +8,7 @@ public static class MaintenanceStrategyFactory
         {
             "quick" => new QuickRepairStrategy(),
             "inspect" => new InspectionStrategy(),
+            "deep" => new DeepRepairStrategy(),
             _ => throw new ArgumentException("Unknown strategy type")
         };
     }

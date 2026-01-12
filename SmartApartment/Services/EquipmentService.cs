@@ -9,12 +9,33 @@ public class EquipmentService
         _repo = repo;
         _factory = factory;
     }
-
     public void RegisterNewDevice(string type, string name, string location)
     {
+        Console.WriteLine($"\n[Procurement] Ordering new {type}...");
+        
+        // 1. Use Factory to create the object (Default Status is usually 'Active' in class)
         var newItem = _factory.Create(type, name, location);
+
+        // 2. [FIX] Simulate the Installation Phase
+        // In reality, status might start as 'Pending' or 'InStock'
+        Console.WriteLine($"[Installation] Technician is unpacking {name} in {location}...");
+        
+        // Simulate a delay (e.g., "Pluging in cables...")
+        Console.Write("Installing");
+        for (int i = 0; i < 3; i++) { Console.Write("."); Thread.Sleep(500); } 
+        Console.WriteLine(" Done!");
+
+        // 3. Finalize Status
+        newItem.Status = "Active"; 
+        
+        // 4. Save to Database
         _repo.Add(newItem);
-        Console.WriteLine($"[Success] Created {name} in {location}. ID: {newItem.Id}");
+        Console.WriteLine($"[System] Device {newItem.Id} is now ONLINE and ACTIVE.");
+    }
+
+    public List<Equipment> GetAll()
+    {
+        return _repo.FindAll();
     }
 
     public void ListAll()
@@ -30,10 +51,6 @@ public class EquipmentService
             Console.WriteLine($"{item.Id} | {item.Name,-15} | {item.Location,-10} | {item.GetDetails()}");
         }
     }
-
-    // Services/EquipmentService.cs
-
-    // ... existing code ...
 
     public Equipment GetById(Guid id)
     {

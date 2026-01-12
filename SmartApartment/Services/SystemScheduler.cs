@@ -17,25 +17,29 @@ public class SystemScheduler
         return _instance;
     }
 
-    // The Logic: Matches "3_5_dailyAudit.txt" sequence diagram
+    // The Logic
     public void RunDailyAudit(EquipmentService service)
     {
         Console.WriteLine("\n[SystemScheduler] Running Daily System Audit...");
         
-        var items = service.GetById(Guid.Empty); // Trick to get all items? 
-        // Better: Add GetAll() to service or access repo. 
-        // For simplicity, let's assume we pass the service method:
+        var items = service.GetAll();
+        Console.WriteLine($"[Audit] Scanning {items.Count} items for issues...");
         
         // Simulating random faults (Entropy)
         Random rnd = new Random();
-        if (rnd.Next(1, 10) > 7) 
+        foreach (var item in items)
         {
-            Console.WriteLine("[Audit] ALERT: Detected voltage spike in Room 101.");
-            // In a real app, this would auto-create a fault report
+            // Simulate random failure logic (10% chance)
+            // Only check items that are currently Active
+            if (item.Status == "Active" && rnd.Next(1, 100) <= 10)
+            {
+                Console.WriteLine($"[Audit] ALERT: Detected voltage spike in {item.Name} ({item.Location})!");
+                
+                // Optional: Auto-report fault
+                service.UpdateStatus(item.Id, "Faulty"); 
+            }
         }
-        else
-        {
-            Console.WriteLine("[Audit] System nominal. No auto-detected faults.");
-        }
+        
+        Console.WriteLine("[Audit] Scan complete.");
     }
 }

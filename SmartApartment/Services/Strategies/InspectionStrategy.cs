@@ -1,3 +1,4 @@
+// Services/Strategies/InspectionStrategy.cs
 public class InspectionStrategy : IMaintenanceStrategy
 {
     public void Execute(Equipment equipment)
