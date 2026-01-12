@@ -4,6 +4,37 @@
     "EquipmentId": "b3b2bcf0-2ea7-4e71-88d7-ab4b8c07ed90",
     "Date": "2026-01-12T09:42:27.5488433+07:00",
     "StrategyUsed": "quick",
-    "TechnicianNote": "Performed quick maintenance successfully."
+    "TechnicianNote": "Performed quick maintenance successfully.",
+    "Status": "Completed",
+    "TechnicianNotes": "Fixed issue."
+  },
+  {
+    "Id": "b8596355-807c-4c39-b1cb-38d7ce6d033f",
+    "EquipmentId": "b3b2bcf0-2ea7-4e71-88d7-ab4b8c07ed90",
+    "Description": "Broken component",
+    "Status": "Completed",
+    "CreatedAt": "2026-01-12T07:45:39.797Z",
+    "TechnicianNotes": "Fixed issue."
+  },
+  {
+    "Id": "c179b3fd-e159-4c4e-b63b-1626264ebd0d",
+    "EquipmentId": "19688501-e265-4406-84b0-5bcb227846eb",
+    "Description": "Insufficient Light",
+    "Status": "Pending",
+    "CreatedAt": "2026-01-12T07:49:02.347Z"
+  },
+  {
+    "Id": "f7da48b2-693c-4bd8-91e9-5deb0da92ec4",
+    "EquipmentId": "f952ed6b-eb20-4b1a-90b4-7e49553cfc65",
+    "Description": "Broken component",
+    "Status": "Pending",
+    "CreatedAt": "2026-01-12T08:45:57.895Z"
+  },
+  {
+    "Id": "a2726ed9-4004-4818-93ee-1dfed3a3ef96",
+    "EquipmentId": "0512fb88-fde4-42ef-a843-77db265662c0",
+    "Description": "Broken component",
+    "Status": "Pending",
+    "CreatedAt": "2026-01-12T08:46:00.364Z"
   }
 ]

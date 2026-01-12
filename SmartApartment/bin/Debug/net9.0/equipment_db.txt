@@ -6,7 +6,10 @@
     "Name": "ASUS Dehara",
     "Location": "904",
     "PurchaseDate": "2025-12-31T07:39:40.6245634+07:00",
-    "Status": "Faulty"
+    "Status": "Faulty",
+    "Type": "Router",
+    "Condition": "Broken",
+    "IsAvailable": false
   },
   {
     "$type": "Router",
@@ -15,7 +18,10 @@
     "Name": "ASUS Dehara",
     "Location": "909",
     "PurchaseDate": "2025-12-31T07:39:54.6114492+07:00",
-    "Status": "Active"
+    "Status": "Active",
+    "Condition": "Good",
+    "IsAvailable": true,
+    "Type": "Router"
   },
   {
     "$type": "Chair",
@@ -24,6 +30,41 @@
     "Name": "UGREEN-TKH",
     "Location": "604",
     "PurchaseDate": "2026-01-12T09:19:41.2931709+07:00",
-    "Status": "Faulty"
+    "Status": "Faulty",
+    "Condition": "Broken",
+    "IsAvailable": false,
+    "Type": "Microscope"
+  },
+  {
+    "Id": "40c72e57-4f4a-4eee-a23a-2576f76a43d4",
+    "Name": "PhucHung-A77",
+    "Type": "Table",
+    "Condition": "Good",
+    "IsAvailable": true,
+    "Location": "Storage"
+  },
+  {
+    "Id": "19688501-e265-4406-84b0-5bcb227846eb",
+    "Name": "FRC-Microscope",
+    "Type": "Microscope",
+    "Condition": "Broken",
+    "IsAvailable": false,
+    "Location": "702"
+  },
+  {
+    "Id": "e1c4eebb-b317-4518-8ccc-75eb700dfff6",
+    "Name": "Hung-Table",
+    "Type": "Chair",
+    "Condition": "Good",
+    "IsAvailable": true,
+    "Location": "102"
+  },
+  {
+    "Id": "08cd8707-28ec-4fc2-8569-ccc3d6379d60",
+    "Name": "Tamaha-Feelan",
+    "Type": "Chair",
+    "Condition": "Good",
+    "IsAvailable": true,
+    "Location": "101"
   }
 ]

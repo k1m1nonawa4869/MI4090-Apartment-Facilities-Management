@@ -6,10 +6,11 @@ class Program
         // 0. Data Layer
         var repository = new FileRepository<Equipment>("equipment_db.txt");
         var workOrderRepo = new FileRepository<WorkOrder>("maintenance_log.txt");
+        var historyRepo = new FileRepository<HistoryLog>("history_log.txt");
 
         // 1. Setup Service
         var factory = new EquipmentFactory();
-        var equipmentService = new EquipmentService(repository, factory);
+        var equipmentService = new EquipmentService(repository, historyRepo, factory);
         var maintenanceService = new MaintenanceService(repository, workOrderRepo);
         var scheduler = SystemScheduler.GetInstance();
 
