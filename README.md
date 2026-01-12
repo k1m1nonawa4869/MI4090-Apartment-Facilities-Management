@@ -1,8 +1,6 @@
 # MI4090-Apartment-Facilities-Management
 OOP project aims to manage facilities at apartment. For staffs and admins
 
-# Project Implementation Report: Smart Apartment Management System
-
 ## 1. Project Overview
 This project implements a **Console-Based Prototype** of the Smart Apartment Facilities Management System. The application is built using **C# (.NET 9.0)** and strictly adheres to the **MVC (Model-View-Controller)** architecture. It utilizes a text-file database (`.txt`) for data persistence to simulate a real-world environment without requiring a SQL server.
 
