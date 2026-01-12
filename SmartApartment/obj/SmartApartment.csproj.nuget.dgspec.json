@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\GitHub\\MI4090-Apartment-Facilites-Managing\\MI4090-Apartment-Facilities-Management\\SmartApartment\\SmartApartment.csproj": {}
+    "D:\\GitHub\\MI4090-Apartment-Facilities-Management\\SmartApartment\\SmartApartment.csproj": {}
   },
   "projects": {
-    "D:\\GitHub\\MI4090-Apartment-Facilites-Managing\\MI4090-Apartment-Facilities-Management\\SmartApartment\\SmartApartment.csproj": {
+    "D:\\GitHub\\MI4090-Apartment-Facilities-Management\\SmartApartment\\SmartApartment.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\GitHub\\MI4090-Apartment-Facilites-Managing\\MI4090-Apartment-Facilities-Management\\SmartApartment\\SmartApartment.csproj",
+        "projectUniqueName": "D:\\GitHub\\MI4090-Apartment-Facilities-Management\\SmartApartment\\SmartApartment.csproj",
         "projectName": "SmartApartment",
-        "projectPath": "D:\\GitHub\\MI4090-Apartment-Facilites-Managing\\MI4090-Apartment-Facilities-Management\\SmartApartment\\SmartApartment.csproj",
+        "projectPath": "D:\\GitHub\\MI4090-Apartment-Facilities-Management\\SmartApartment\\SmartApartment.csproj",
         "packagesPath": "C:\\Users\\thisis4nges\\.nuget\\packages\\",
-        "outputPath": "D:\\GitHub\\MI4090-Apartment-Facilites-Managing\\MI4090-Apartment-Facilities-Management\\SmartApartment\\obj\\",
+        "outputPath": "D:\\GitHub\\MI4090-Apartment-Facilities-Management\\SmartApartment\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\thisis4nges\\AppData\\Roaming\\NuGet\\NuGet.Config"

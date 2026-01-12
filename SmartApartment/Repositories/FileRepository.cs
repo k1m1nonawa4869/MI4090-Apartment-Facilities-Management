@@ -24,7 +24,7 @@ public class FileRepository<T>
         Save(list);
     }
 
-    private void Save(List<T> list)
+    public void Save(List<T> list)
     {
         var options = new JsonSerializerOptions { WriteIndented = true };
         File.WriteAllText(_filePath, JsonSerializer.Serialize(list, options));
