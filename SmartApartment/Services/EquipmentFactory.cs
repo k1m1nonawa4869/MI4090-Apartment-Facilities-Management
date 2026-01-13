@@ -5,20 +5,8 @@ public class EquipmentFactory : IEquipmentFactory
     {
         Equipment item;
 
-        switch (type.ToLower())
-        {
-            case "router":
-                item = new Router { IPAddress = "192.168.1.X" }; // Default IP
-                break;
-            case "table":
-                item = new Table { Material = "Wood" };
-                break;
-            case "chair":
-                item = new Chair { FabricType = "Cotton" }; 
-                break;
-            default:
-                throw new ArgumentException("Unknown type");
-        }
+        // Always create GeneralItem
+        item = new GeneralItem { Category = type };
 
         // Common properties setup
         item.Name = name;

@@ -33,17 +33,18 @@ public class MaintenanceService
         try 
         {
             var strategy = MaintenanceStrategyFactory.Get(strategyName);
-            strategy.Execute(item); // This updates item.Status
+            var result = strategy.Execute(item); // Returns MaintenanceResult
             
             // 2. Save the Item changes
             _equipRepo.Save(allItems);
 
-            // 3. [NEW] Create & Save the Log (WorkOrder)
+            // 3. Create & Save the Log (WorkOrder)
             var log = new WorkOrder
             {
                 EquipmentId = item.Id,
                 StrategyUsed = strategyName,
-                TechnicianNote = $"Performed {strategyName} maintenance successfully."
+                TechnicianNote = result.Note,
+                Cost = result.Cost
             };
             
             _workOrderRepo.Add(log); // Save to maintenance_log.txt
@@ -63,5 +64,10 @@ public class MaintenanceService
                              .Where(w => w.EquipmentId == equipmentId)
                              .OrderByDescending(w => w.Date)
                              .ToList();
+    }
+
+    public decimal GetTotalMaintenanceCost()
+    {
+        return _workOrderRepo.FindAll().Sum(w => w.Cost);
     }
 }

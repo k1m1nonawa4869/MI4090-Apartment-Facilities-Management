@@ -13,7 +13,23 @@ public class EquipmentController
         Console.WriteLine("\n--- Add New Equipment ---");
             
         // 1. Get Input (View Logic)
-        Console.Write("Enter Type (Router/Table/Chair): ");
+        try 
+        {
+            var existingTypes = _service.GetAll()
+                .Select(e => (e as GeneralItem)?.Category ?? "Unknown")
+                .Distinct()
+                .Where(c => c != "Unknown")
+                .OrderBy(c => c);
+
+            Console.WriteLine($"Existing Types: {string.Join(", ", existingTypes)}");
+        }
+        catch 
+        { 
+            // Ignore errors if DB is empty or unreadable
+        }
+        
+        Console.WriteLine("Common Types: Chair, Table, Router, Lamp, Bed, Fan, AC, etc.");
+        Console.Write("Enter Type: ");
         var type = Console.ReadLine();
             
         Console.Write("Enter Name: ");
@@ -22,10 +38,14 @@ public class EquipmentController
         Console.Write("Enter Location (e.g., Room 101): ");
         var location = Console.ReadLine();
 
+        decimal price = 0;
+        Console.Write("Enter Price ($): ");
+        decimal.TryParse(Console.ReadLine(), out price);
+
         try 
         {
             // 2. Delegate to Service (Model Logic)
-            _service.RegisterNewDevice(type, name, location);
+            _service.RegisterNewDevice(type, name, location, price);
         } 
         catch (Exception ex) 
         {
@@ -81,15 +101,16 @@ public class EquipmentController
             Console.WriteLine($"1. Edit Name (Current: {item.Name})");
             Console.WriteLine($"2. Edit Type (Current: {item.GetType().Name})");
             Console.WriteLine($"3. Edit Location (Current: {item.Location})");
-            Console.WriteLine($"4. DELETE Item");
-            Console.WriteLine($"5. Back");
+            Console.WriteLine($"4. Edit Price (Current: ${item.InitialCost})");
+            Console.WriteLine($"5. DELETE Item");
+            Console.WriteLine($"6. Back");
             Console.Write("Select: ");
 
             var choice = Console.ReadLine();
             
-            if (choice == "5") return;
+            if (choice == "6") return;
 
-            if (choice == "4")
+            if (choice == "5")
             {
                 Console.Write($"Are you sure you want to DELETE {item.Name}? (y/n): ");
                 if (Console.ReadLine()?.ToLower() == "y")
@@ -100,9 +121,10 @@ public class EquipmentController
                     return; // Return to list, item is gone
                 }
             }
-            else if (choice == "1" || choice == "2" || choice == "3")
+            else if (choice == "1" || choice == "2" || choice == "3" || choice == "4")
             {
                 string newName = null, newType = null, newLocation = null;
+                decimal? newPrice = null;
 
                 if (choice == "1") 
                 {
@@ -119,8 +141,13 @@ public class EquipmentController
                     Console.Write("Enter new Location: ");
                     newLocation = Console.ReadLine();
                 }
+                if (choice == "4")
+                {
+                    Console.Write("Enter new Price: ");
+                    if (decimal.TryParse(Console.ReadLine(), out decimal p)) newPrice = p;
+                }
 
-                _service.EditEquipment(item.Id, newName, newType, newLocation);
+                _service.EditEquipment(item.Id, newName, newType, newLocation, newPrice);
                 Console.WriteLine("Updated! Press Enter...");
                 Console.ReadLine();
             }

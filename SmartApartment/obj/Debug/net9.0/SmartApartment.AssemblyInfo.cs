@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SmartApartment")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cedc61af6a74c218d7c8c1b8078135a7c46a8113")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f35f6ca9e5ca90cd6008269d634c675335a9554d")]
 [assembly: System.Reflection.AssemblyProductAttribute("SmartApartment")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SmartApartment")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

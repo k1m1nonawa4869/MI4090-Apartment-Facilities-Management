@@ -45,7 +45,7 @@ export async function POST(req: Request) {
 export async function PATCH(req: Request) {
     try {
         const body = await req.json();
-        const { id, status, notes } = body;
+        const { id, status, notes, cost, strategy } = body;
 
         const workOrders = await db.getWorkOrders();
         const orderIndex = workOrders.findIndex(w => w.Id === id);
@@ -58,6 +58,9 @@ export async function PATCH(req: Request) {
         const updatedOrder = { ...workOrders[orderIndex] };
         updatedOrder.Status = status;
         if (notes) updatedOrder.TechnicianNotes = notes;
+        if (cost !== undefined) updatedOrder.Cost = cost;
+        if (strategy) updatedOrder.Strategy = strategy;
+
         await db.updateWorkOrder(updatedOrder);
 
         // If completed, fix the equipment!

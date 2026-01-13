@@ -1,70 +1,82 @@
 [
   {
-    "$type": "Router",
-    "IPAddress": "192.168.1.X",
+    "$type": "GeneralItem",
+    "Category": "Router",
     "Id": "f952ed6b-eb20-4b1a-90b4-7e49553cfc65",
     "Name": "ASUS Dehara",
     "Location": "904",
     "PurchaseDate": "2025-12-31T07:39:40.6245634+07:00",
-    "Status": "Faulty",
-    "Type": "Router",
-    "Condition": "Broken",
-    "IsAvailable": false
+    "InitialCost": 0,
+    "Status": "Faulty"
   },
   {
-    "$type": "Router",
-    "IPAddress": "192.168.1.X",
+    "$type": "GeneralItem",
+    "Category": "Router",
     "Id": "b3b2bcf0-2ea7-4e71-88d7-ab4b8c07ed90",
     "Name": "ASUS Dehara",
     "Location": "909",
     "PurchaseDate": "2025-12-31T07:39:54.6114492+07:00",
-    "Status": "Active",
-    "Condition": "Good",
-    "IsAvailable": true,
-    "Type": "Router"
+    "InitialCost": 0,
+    "Status": "Active"
   },
   {
-    "$type": "Chair",
-    "FabricType": "Cotton",
+    "$type": "GeneralItem",
+    "Category": "Chair",
     "Id": "0512fb88-fde4-42ef-a843-77db265662c0",
     "Name": "UGREEN-TKH",
     "Location": "604",
     "PurchaseDate": "2026-01-12T09:19:41.2931709+07:00",
-    "Status": "Faulty",
-    "Condition": "Broken",
-    "IsAvailable": false,
-    "Type": "Microscope"
+    "InitialCost": 0,
+    "Status": "Faulty"
   },
   {
+    "$type": "GeneralItem",
+    "Category": "Table",
     "Id": "40c72e57-4f4a-4eee-a23a-2576f76a43d4",
     "Name": "PhucHung-A77",
-    "Type": "Table",
-    "Condition": "Good",
-    "IsAvailable": true,
-    "Location": "Storage"
+    "Location": "Storage",
+    "PurchaseDate": "2026-01-13T07:57:43.8742874+07:00",
+    "InitialCost": 0,
+    "Status": "Active"
   },
   {
+    "$type": "GeneralItem",
+    "Category": "Microscope",
     "Id": "19688501-e265-4406-84b0-5bcb227846eb",
     "Name": "FRC-Microscope",
-    "Type": "Microscope",
-    "Condition": "Broken",
-    "IsAvailable": false,
-    "Location": "702"
+    "Location": "702",
+    "PurchaseDate": "2026-01-13T07:57:43.8742942+07:00",
+    "InitialCost": 0,
+    "Status": "Active"
   },
   {
+    "$type": "GeneralItem",
+    "Category": "Chair",
     "Id": "e1c4eebb-b317-4518-8ccc-75eb700dfff6",
     "Name": "Hung-Table",
-    "Type": "Chair",
-    "Condition": "Good",
-    "IsAvailable": true,
-    "Location": "102"
+    "Location": "102",
+    "PurchaseDate": "2026-01-13T07:57:43.8742981+07:00",
+    "InitialCost": 0,
+    "Status": "Active"
   },
   {
+    "$type": "GeneralItem",
+    "Category": "Chair",
     "Id": "08cd8707-28ec-4fc2-8569-ccc3d6379d60",
     "Name": "Tamaha-Feelan",
-    "Type": "Chair",
-    "Condition": "Good",
-    "IsAvailable": true,
-    "Location": "101"
+    "Location": "101",
+    "PurchaseDate": "2026-01-13T07:57:43.8743019+07:00",
+    "InitialCost": 0,
+    "Status": "Active"
+  },
+  {
+    "$type": "GeneralItem",
+    "Category": "Lamp",
+    "Id": "218d45e7-732c-4831-870e-bf9edbf93817",
+    "Name": "Haiju-Kermin",
+    "Location": "707",
+    "PurchaseDate": "2026-01-13T07:57:42.9416108+07:00",
+    "InitialCost": 1500,
+    "Status": "Active"
   }
 ]

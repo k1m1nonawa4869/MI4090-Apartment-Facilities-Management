@@ -6,7 +6,8 @@ export interface Equipment {
     Type: EquipmentType;
     Condition: "Good" | "Fair" | "Poor" | "Broken";
     IsAvailable: boolean;
-    Location?: string; // Optional per C# code logic
+    Location?: string;
+    InitialCost?: number;
 }
 
 export interface WorkOrder {
@@ -16,6 +17,8 @@ export interface WorkOrder {
     Status: "Pending" | "In Progress" | "Completed";
     CreatedAt: string; // DateTime serialized
     TechnicianNotes?: string;
+    Cost?: number;
+    Strategy?: string; // "Combine" | "FalseReport"
 }
 
 export interface HistoryLog {

@@ -21,6 +21,7 @@ export async function POST(req: Request) {
             Condition: "Good",
             IsAvailable: true,
             Location: body.Location || "Storage",
+            InitialCost: body.InitialCost || 0,
         };
 
         await db.addEquipment(newItem);
@@ -73,6 +74,10 @@ export async function PUT(req: Request) {
         if (Location && Location !== oldItem.Location) {
             updates.push(`Location: ${oldItem.Location} -> ${Location}`);
             updatedItem.Location = Location;
+        }
+        if (body.InitialCost !== undefined && body.InitialCost !== oldItem.InitialCost) {
+            updates.push(`Price: ${oldItem.InitialCost} -> ${body.InitialCost}`);
+            updatedItem.InitialCost = body.InitialCost;
         }
 
         if (updates.length > 0) {

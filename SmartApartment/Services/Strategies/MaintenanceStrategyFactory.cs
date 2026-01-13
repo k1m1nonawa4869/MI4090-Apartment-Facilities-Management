@@ -6,9 +6,8 @@ public static class MaintenanceStrategyFactory
     {
         return type.ToLower() switch
         {
-            "quick" => new QuickRepairStrategy(),
-            "inspect" => new InspectionStrategy(),
-            "deep" => new DeepRepairStrategy(),
+            "combine" => new CombineRepairStrategy(),
+            "false" => new FalseReportStrategy(),
             _ => throw new ArgumentException("Unknown strategy type")
         };
     }

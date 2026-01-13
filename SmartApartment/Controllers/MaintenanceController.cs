@@ -19,9 +19,8 @@ public class MaintenanceController
         if (Guid.TryParse(idStr, out Guid id))
         {
             Console.WriteLine("Choose Strategy:");
-            Console.WriteLine(" - quick   (Standard Repair)");
-            Console.WriteLine(" - deep    (Intensive Overhaul)");
-            Console.WriteLine(" - inspect (False Alarm Check)");
+            Console.WriteLine(" - combine   (Repair with Cost & Note)");
+            Console.WriteLine(" - false     (False Alarm Report)");
             Console.Write("Selection: ");
             string strategy = Console.ReadLine();
 

@@ -20,7 +20,7 @@ class Program
         notifier.Subscribe(new Technician { Phone = "555-0199" }); // Technician listens
 
         // 3. Setup Controllers
-        var dashboard = new DashboardController(equipmentService);
+        var dashboard = new DashboardController(equipmentService, maintenanceService);
         var faultController = new FaultReportController(equipmentService, notifier);
         var maintenanceController = new MaintenanceController(maintenanceService);
         var equipmentController = new EquipmentController(equipmentService);
@@ -45,10 +45,10 @@ class Program
             switch (choice)
             {
                 case "1": dashboard.ShowDashboard(); break;
-                case "2": equipmentController.AddEquipment(); break; // <--- Clean!
+                case "2": equipmentController.AddEquipment(); break; 
                 case "3": equipmentController.ViewInventory(); break;
                 case "4": faultController.ReportFault(); break;
-                case "5": maintenanceController.PerformMaintenance(); break; // <--- Clean!
+                case "5": maintenanceController.PerformMaintenance(); break; 
                 case "6": scheduler.RunDailyAudit(equipmentService); break;
                 case "7": maintenanceController.ShowHistory(); break;
                 case "8": return;

@@ -4,6 +4,9 @@ import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Armchair, Wrench, AlertTriangle, CheckCircle } from "lucide-react";
 import { Equipment, WorkOrder } from "@/types";
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from "recharts";
+
+const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884d8", "#82ca9d", "#ffc658"];
 
 const stats = [
   {
@@ -75,6 +78,29 @@ export default function Home() {
     brokenItems,
     availableItems,
   };
+
+  // --- Price Dashboard Logic ---
+  const totalAssetValue = equipment.reduce((sum, item) => sum + (item.InitialCost || 0), 0);
+  const assetsByCategory = equipment.reduce((acc, item) => {
+    const cost = item.InitialCost || 0;
+    if (cost > 0) acc[item.Type] = (acc[item.Type] || 0) + cost;
+    return acc;
+  }, {} as Record<string, number>);
+  const assetData = Object.entries(assetsByCategory).map(([name, value]) => ({ name, value }));
+
+  const totalRepairCost = workOrders.reduce((sum, wo) => sum + (wo.Cost || 0), 0);
+  const equipmentMap = new Map(equipment.map(e => [e.Id, e]));
+  const repairsByCategory = workOrders.reduce((acc, wo) => {
+    const cost = wo.Cost || 0;
+    if (cost > 0) {
+      const item = equipmentMap.get(wo.EquipmentId);
+      const type = item ? item.Type : "Unknown";
+      acc[type] = (acc[type] || 0) + cost;
+    }
+    return acc;
+  }, {} as Record<string, number>);
+  const repairData = Object.entries(repairsByCategory).map(([name, value]) => ({ name, value }));
+  // ---------------------------
 
   return (
     <div className="space-y-8">
@@ -155,6 +181,86 @@ export default function Home() {
                 <p className="text-sm text-muted-foreground">No work orders found.</p>
               )}
             </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* --- Price Dashboard Section --- */}
+      <h2 className="text-2xl font-bold tracking-tight text-white mt-12 mb-6">Financial Overview</h2>
+
+      <div className="grid gap-4 md:grid-cols-2">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Total Asset Value</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-white">${totalAssetValue.toLocaleString()}</div>
+            <p className="text-xs text-muted-foreground">Total initial cost of all inventory</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Total Repair Cost</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-white">${totalRepairCost.toLocaleString()}</div>
+            <p className="text-xs text-muted-foreground">Total spent on maintenance</p>
+          </CardContent>
+        </Card>
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-2">
+        <Card className="col-span-1">
+          <CardHeader>
+            <CardTitle>Buying Cost by Category</CardTitle>
+          </CardHeader>
+          <CardContent className="h-[300px]">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={assetData}
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={60}
+                  outerRadius={80}
+                  paddingAngle={5}
+                  dataKey="value"
+                >
+                  {assetData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip formatter={(value: any) => `$${value}`} />
+                <Legend />
+              </PieChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+
+        <Card className="col-span-1">
+          <CardHeader>
+            <CardTitle>Repair Cost by Category</CardTitle>
+          </CardHeader>
+          <CardContent className="h-[300px]">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={repairData}
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={60}
+                  outerRadius={80}
+                  paddingAngle={5}
+                  dataKey="value"
+                >
+                  {repairData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip formatter={(value: any) => `$${value}`} />
+                <Legend />
+              </PieChart>
+            </ResponsiveContainer>
           </CardContent>
         </Card>
       </div>

@@ -1,9 +1,7 @@
 // Models/Equipment.cs
 using System.Text.Json.Serialization;
 
-[JsonDerivedType(typeof(Router), typeDiscriminator: "Router")]
-[JsonDerivedType(typeof(Table), typeDiscriminator: "Table")]
-[JsonDerivedType(typeof(Chair), typeDiscriminator: "Chair")]
+[JsonDerivedType(typeof(GeneralItem), typeDiscriminator: "GeneralItem")]
 public abstract class Equipment
 {
     public Guid Id { get; set; } = Guid.NewGuid();     // This is your Unique ID (Asset Tag)
@@ -13,6 +11,7 @@ public abstract class Equipment
     public string Location { get; set; } // Simplified Composite Pattern
 
     public DateTime PurchaseDate { get; set; } = DateTime.Now;
+    public decimal InitialCost { get; set; } = 0; // Price when bought
     public string Status { get; set; } = "Active";
 
     public abstract string GetDetails();

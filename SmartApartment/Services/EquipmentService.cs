@@ -12,11 +12,12 @@ public class EquipmentService
         _factory = factory;
     }
 
-    public void RegisterNewDevice(string type, string name, string location)
+    public void RegisterNewDevice(string type, string name, string location, decimal price)
     {
         Console.WriteLine($"\n[Procurement] Ordering new {type}...");
         
         var newItem = _factory.Create(type, name, location);
+        newItem.InitialCost = price;
 
         Console.WriteLine($"[Installation] Technician is unpacking {name} in {location}...");
         Console.Write("Installing");
@@ -39,13 +40,13 @@ public class EquipmentService
     {
         var items = _repo.FindAll();
         Console.WriteLine($"\n--- Inventory ({items.Count} items) ---");
-        Console.WriteLine("{0,-36} | {1,-15} | {2,-15} | {3,-10} | {4}", "ID", "Name", "Type", "Location", "Status");
-        Console.WriteLine(new string('-', 100));
+        Console.WriteLine("{0,-36} | {1,-15} | {2,-15} | {3,-10} | {4,-10} | {5}", "ID", "Name", "Type", "Location", "Price", "Status");
+        Console.WriteLine(new string('-', 115));
 
         foreach (var item in items)
         {
-            var typeName = item.GetType().Name;
-            Console.WriteLine($"{item.Id} | {item.Name,-15} | {typeName,-15} | {item.Location,-10} | {item.Status}");
+            var typeName = (item as GeneralItem)?.Category ?? item.GetType().Name;
+            Console.WriteLine($"{item.Id} | {item.Name,-15} | {typeName,-15} | {item.Location,-10} | ${item.InitialCost,-9} | {item.Status}");
         }
     }
 
@@ -55,15 +56,15 @@ public class EquipmentService
         return item;
     }
 
-    public void EditEquipment(Guid id, string newName, string newType, string newLocation)
+    public void EditEquipment(Guid id, string newName, string newType, string newLocation, decimal? newPrice)
     {
         var allItems = _repo.FindAll();
         var item = allItems.FirstOrDefault(e => e.Id == id);
         
         if (item != null)
         {
-            var currentType = item.GetType().Name;
-            var oldDetails = $"{item.Name} ({currentType}) at {item.Location}";
+            var currentType = (item as GeneralItem)?.Category ?? item.GetType().Name;
+            var oldDetails = $"{item.Name} ({currentType}) at {item.Location} [${item.InitialCost}]";
             bool typeChanged = !string.IsNullOrWhiteSpace(newType) && !newType.Equals(currentType, StringComparison.OrdinalIgnoreCase);
 
             if (typeChanged)
@@ -81,6 +82,7 @@ public class EquipmentService
                     newInstance.Id = item.Id; // Keep same ID
                     newInstance.Status = item.Status;
                     newInstance.PurchaseDate = item.PurchaseDate;
+                    newInstance.InitialCost = newPrice ?? item.InitialCost;
 
                     // Remove old, Add new
                     allItems.Remove(item);
@@ -100,10 +102,12 @@ public class EquipmentService
                 // Standard Update
                 if(!string.IsNullOrWhiteSpace(newName)) item.Name = newName;
                 if(!string.IsNullOrWhiteSpace(newLocation)) item.Location = newLocation;
+                if(newPrice.HasValue) item.InitialCost = newPrice.Value;
             }
 
             _repo.Save(allItems);
-            LogHistory("Modify", item.Id.ToString(), $"Changed from [{oldDetails}] to [{item.Name} ({currentType}) at {item.Location}]");
+            _repo.Save(allItems);
+            LogHistory("Modify", item.Id.ToString(), $"Changed from [{oldDetails}] to [{item.Name} ({currentType}) at {item.Location} [${item.InitialCost}]]");
             Console.WriteLine($"[Update] Item {item.Id} updated successfully.");
         }
         else
@@ -167,5 +171,10 @@ public class EquipmentService
     public List<Equipment> GetFaultyItems()
     {
         return _repo.FindAll().Where(i => i.Status == "Faulty").ToList();
+    }
+
+    public decimal GetTotalInventoryValue()
+    {
+        return _repo.FindAll().Sum(e => e.InitialCost);
     }
 }

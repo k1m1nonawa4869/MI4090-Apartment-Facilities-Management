@@ -1,11 +1,13 @@
 // Controllers/DashboardController.cs
 public class DashboardController
 {
-    private readonly EquipmentService _service;
+    private readonly EquipmentService _equipService;
+    private readonly MaintenanceService _maintService;
 
-    public DashboardController(EquipmentService service)
+    public DashboardController(EquipmentService equipService, MaintenanceService maintService)
     {
-        _service = service;
+        _equipService = equipService;
+        _maintService = maintService;
     }
 
     public void ShowDashboard()
@@ -16,17 +18,23 @@ public class DashboardController
         Console.WriteLine("========================================");
 
         // 1. Get Stats from Service
-        var (active, faulty, repair) = _service.GetStats();
+        var (active, faulty, repair) = _equipService.GetStats();
+        var totalEquipmentValue = _equipService.GetTotalInventoryValue();
+        var totalMaintenanceCost = _maintService.GetTotalMaintenanceCost();
 
         // 2. Display Summary
         Console.WriteLine($" [STATUS OVERVIEW]");
         Console.WriteLine($"  - Active Items:      {active}");
         Console.WriteLine($"  - Reported Faults:   {faulty}  <-- URGENT");
         Console.WriteLine($"  - Under Repair:      {repair}");
+        Console.WriteLine("----------------------------------------");
+        Console.WriteLine($" [PRICE DASHBOARD]");
+        Console.WriteLine($"  - Total Asset Value: ${totalEquipmentValue}");
+        Console.WriteLine($"  - Total Repair Cost: ${totalMaintenanceCost}");
         Console.WriteLine("========================================");
 
         // 3. Display Action Items (The "Alert List")
-        var faultyItems = _service.GetFaultyItems();
+        var faultyItems = _equipService.GetFaultyItems();
         
         if (faultyItems.Count > 0)
         {

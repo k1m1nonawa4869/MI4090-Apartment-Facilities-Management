@@ -6,16 +6,47 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Armchair, Wifi, Microscope, Table as TableIcon, Box, Plus, AlertTriangle } from "lucide-react";
+import { Armchair, Wifi, Table as TableIcon, Box, Plus, AlertTriangle } from "lucide-react";
 import { Equipment } from "@/types";
 
 const iconMap: Record<string, any> = {
     Chair: Armchair,
     Table: TableIcon,
     Router: Wifi,
-    Microscope: Microscope,
+    AirConditioner: Box,
+    Lamp: Box,
+    Window: Box,
     Default: Box
 };
+
+const EQUIPMENT_TYPES = [
+    // Furniture
+    "Armchair", "Bed", "Bookshelf", "Chair", "Coffee Table", "Couch", "Desk",
+    "Dining Table", "Dresser", "Nightstand", "Office Chair", "Shoe Rack", "Sofa",
+    "Side Table", "TV Stand", "Wardrobe",
+
+    // Appliances
+    "Air Conditioner", "Ceiling Fan", "Dehumidifier", "Dishwasher", "Dryer",
+    "Electric Kettle", "Fan", "Heater", "Iron", "Microwave", "Oven",
+    "Refrigerator", "Rice Cooker", "Toaster", "Vacuum Cleaner", "Washing Machine",
+    "Water Heater",
+
+    // Electronics & Tech
+    "Modem", "Monitor", "Printer", "Projector", "Router", "Security Camera",
+    "Smart Lock", "Smart Speaker", "Television", "Thermostat",
+
+    // Lighting
+    "Ceiling Light", "Desk Lamp", "Floor Lamp", "Light Bulb", "Wall Sconce",
+
+    // Fixtures & Structural
+    "Bathtub", "Blinds", "Cabinet", "Curtains", "Door", "Faucet",
+    "Fire Extinguisher", "Mirror", "Shower", "Sink", "Smoke Detector",
+    "Toilet", "Window",
+
+    // Kitchen & Utility
+    "Blender", "Coffee Maker", "Cooking Pot", "Cutlery Set", "Dish Rack",
+    "Garbage Can", "Ladder", "Mop", "Toolbox"
+].sort();
 
 export default function InventoryPage() {
     const [equipment, setEquipment] = useState<Equipment[]>([]);
@@ -25,15 +56,17 @@ export default function InventoryPage() {
     // Add Equipment Form State
     const [isAddOpen, setIsAddOpen] = useState(false);
     const [newItemName, setNewItemName] = useState("");
-    const [newItemType, setNewItemType] = useState("Chair");
+    const [newItemType, setNewItemType] = useState(EQUIPMENT_TYPES[0]);
     const [newItemLocation, setNewItemLocation] = useState("");
+    const [newItemPrice, setNewItemPrice] = useState("");
 
     // Edit Equipment State
     const [isEditOpen, setIsEditOpen] = useState(false);
     const [editingItem, setEditingItem] = useState<Equipment | null>(null);
     const [editName, setEditName] = useState("");
-    const [editType, setEditType] = useState<any>("Chair");
+    const [editType, setEditType] = useState<any>(EQUIPMENT_TYPES[0]);
     const [editLocation, setEditLocation] = useState("");
+    const [editPrice, setEditPrice] = useState("");
 
     // Report Fault State
     const [isFaultOpen, setIsFaultOpen] = useState(false);
@@ -66,7 +99,12 @@ export default function InventoryPage() {
         try {
             const res = await fetch("/api/equipment", {
                 method: "POST",
-                body: JSON.stringify({ Name: newItemName, Type: newItemType, Location: newItemLocation })
+                body: JSON.stringify({
+                    Name: newItemName,
+                    Type: newItemType,
+                    Location: newItemLocation,
+                    InitialCost: parseFloat(newItemPrice) || 0
+                })
             });
 
             if (res.ok) {
@@ -91,6 +129,7 @@ export default function InventoryPage() {
         setEditName(item.Name);
         setEditType(item.Type);
         setEditLocation(item.Location || "");
+        setEditPrice(item.InitialCost?.toString() || "");
         setIsEditOpen(true);
     }
 
@@ -104,7 +143,8 @@ export default function InventoryPage() {
                     Id: editingItem.Id,
                     Name: editName,
                     Type: editType,
-                    Location: editLocation
+                    Location: editLocation,
+                    InitialCost: parseFloat(editPrice) || 0
                 })
             });
             if (res.ok) {
@@ -182,6 +222,10 @@ export default function InventoryPage() {
                                 <Input id="location" value={newItemLocation} onChange={(e) => setNewItemLocation(e.target.value)} placeholder="e.g. Room 101" />
                             </div>
                             <div className="grid gap-2">
+                                <Label htmlFor="price">Price ($)</Label>
+                                <Input id="price" type="number" value={newItemPrice} onChange={(e) => setNewItemPrice(e.target.value)} placeholder="0.00" />
+                            </div>
+                            <div className="grid gap-2">
                                 <Label htmlFor="type">Type</Label>
                                 <select
                                     id="type"
@@ -189,10 +233,9 @@ export default function InventoryPage() {
                                     value={newItemType}
                                     onChange={(e) => setNewItemType(e.target.value)}
                                 >
-                                    <option value="Chair">Chair</option>
-                                    <option value="Table">Table</option>
-                                    <option value="Router">Router</option>
-                                    <option value="Microscope">Microscope</option>
+                                    {EQUIPMENT_TYPES.map((type) => (
+                                        <option key={type} value={type}>{type}</option>
+                                    ))}
                                 </select>
                             </div>
                         </div>
@@ -221,6 +264,10 @@ export default function InventoryPage() {
                                 <Input id="edit-location" value={editLocation} onChange={(e) => setEditLocation(e.target.value)} />
                             </div>
                             <div className="grid gap-2">
+                                <Label htmlFor="edit-price">Price ($)</Label>
+                                <Input id="edit-price" type="number" value={editPrice} onChange={(e) => setEditPrice(e.target.value)} />
+                            </div>
+                            <div className="grid gap-2">
                                 <Label htmlFor="edit-type">Type</Label>
                                 <select
                                     id="edit-type"
@@ -228,10 +275,9 @@ export default function InventoryPage() {
                                     value={editType}
                                     onChange={(e) => setEditType(e.target.value)}
                                 >
-                                    <option value="Chair">Chair</option>
-                                    <option value="Table">Table</option>
-                                    <option value="Router">Router</option>
-                                    <option value="Microscope">Microscope</option>
+                                    {EQUIPMENT_TYPES.map((type) => (
+                                        <option key={type} value={type}>{type}</option>
+                                    ))}
                                 </select>
                             </div>
                         </div>
@@ -301,6 +347,7 @@ export default function InventoryPage() {
                             <CardContent>
                                 <div className="text-sm text-muted-foreground space-y-1">
                                     <p>Location: <span className="text-white">{item.Location || "N/A"}</span></p>
+                                    <p>Price: <span className="text-white">${item.InitialCost || 0}</span></p>
                                     <p>Condition: <span className={item.Condition === 'Broken' ? 'text-red-400 font-bold' : 'text-gray-300'}>{item.Condition}</span></p>
                                     {item.Condition !== 'Broken' && (
                                         <Button
